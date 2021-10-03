@@ -8,7 +8,7 @@ pipeline{
                 label "master"
             }
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/${params.tag}']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github_key', url: 'https://github.com/avinash11b11/TestRepo.git']]])
+                checkout([$class: 'GitSCM',   branches: [[name: "${params.TAG}"]], extensions: [], userRemoteConfigs: [[credentialsId: 'Github_key', url: 'https://github.com/avinash11b11/TestRepo.git']]])
             }
         }
       
