@@ -3,7 +3,7 @@ properties([parameters([choice(choices: ['RELEASE', 'SNAPSHOT'], description: 'b
 pipeline{
     agent none
     stages{
-        stage('Non-Parallel Stage'){
+        stage('Checkout'){
             agent{
                 label "master"
             }
@@ -11,6 +11,17 @@ pipeline{
                 echo "${params.tag}"
                 echo "${params.buildType}"
                 checkout([$class: 'GitSCM',   branches: [[name: "${params.tag}"]], extensions: [], userRemoteConfigs: [[credentialsId: 'Github_key', url: 'https://github.com/avinash11b11/TestRepo.git']]])
+            }
+        }
+        
+        stage('Build'){
+            agent{
+                label "master"
+            }
+            steps{
+                sh'''
+                  mvn clean install 
+               '''
             }
         }
       
