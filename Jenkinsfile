@@ -20,6 +20,8 @@ pipeline{
             }
             steps{
                 bat'''
+                  mvn -f my-app/pom.xml versions:set -DnewVersion=$tag
+                  mvn -f my-app/pom.xml versions:commit
                   mvn -f my-app/pom.xml clean install 
                '''
             }
