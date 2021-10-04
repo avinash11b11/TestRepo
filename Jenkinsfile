@@ -19,9 +19,9 @@ pipeline{
                 label "master"
             }
             steps{
-                sh'''
+                bat'
                   mvn -f my-app/pom.xml clean install 
-               '''
+               '
             }
         }
       
