@@ -1,5 +1,7 @@
 properties([parameters([choice(choices: ['RELEASE', 'SNAPSHOT'], description: 'buildType', name: 'buildType'), gitParameter(branch: '', branchFilter: '.*', defaultValue: '1.0.0', description: 'tag', name: 'tag', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE', tagFilter: '*', type: 'PT_TAG')])])
 
+
+
 pipeline{
     agent none
     stages{
@@ -14,11 +16,32 @@ pipeline{
             }
         }
         
-        stage('Build'){
+        stage('Snapshot Build'){
             agent{
                 label "master"
             }
+            when {
+                    expression {params.buildType == 'SNAPSHOT'}
+                }
             steps{
+                
+                bat'''
+                call  mvn -f my-app/pom.xml versions:set -DnewVersion=%tag%-%buildType%
+                call mvn -f my-app/pom.xml versions:commit
+                call mvn -f my-app/pom.xml clean install 
+               '''
+            }
+        }
+        
+        stage('Release Build'){
+            agent{
+                label "master"
+            }
+            when {
+                    expression {params.buildType == 'RELEASE'}
+                }
+            steps{
+                
                 bat'''
                 call  mvn -f my-app/pom.xml versions:set -DnewVersion=%tag%
                 call mvn -f my-app/pom.xml versions:commit
