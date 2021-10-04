@@ -20,7 +20,7 @@ pipeline{
             }
             steps{
                 sh'''
-                  mvn clean install 
+                  mvn -f my-app/pom.xml clean install 
                '''
             }
         }
