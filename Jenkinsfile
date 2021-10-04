@@ -12,7 +12,7 @@ pipeline{
             steps{
                 echo "${params.tag}"
                 echo "${params.buildType}"
-                checkout([$class: 'GitSCM',   branches: [[name: tags/"${params.tag}"]], extensions: [], userRemoteConfigs: [[credentialsId: 'Github_key', url: 'https://github.com/avinash11b11/TestRepo.git']]])
+                checkout([$class: 'GitSCM',   branches: [[name: refs/tags/"${params.tag}"]], extensions: [], userRemoteConfigs: [[credentialsId: 'Github_key', url: 'https://github.com/avinash11b11/TestRepo.git']]])
             }
         }
         
